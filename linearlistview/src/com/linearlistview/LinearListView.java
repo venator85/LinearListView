@@ -3,14 +3,11 @@ package com.linearlistview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.WrapperListAdapter;
 
 import com.linearlistview.internal.IcsLinearLayout;
 
@@ -23,7 +20,7 @@ public class LinearListView extends IcsLinearLayout {
 
 	private static final int[] R_styleable_LinearListView = new int[] {
 		/* 0 */android.R.attr.entries,
-		/* 1 */R.attr.dividerThickness 
+		/* 1 */R.attr.dividerThickness
 	};
 
 	private static final int LinearListView_entries = 0;
@@ -204,7 +201,7 @@ public class LinearListView extends IcsLinearLayout {
 		mEmptyView = emptyView;
 
 		final ListAdapter adapter = getAdapter();
-		final boolean empty = ((adapter == null) || adapter.isEmpty());
+		final boolean empty = adapter == null || adapter.isEmpty();
 		updateEmptyStatus(empty);
 	}
 
@@ -230,15 +227,12 @@ public class LinearListView extends IcsLinearLayout {
 			if (mEmptyView != null) {
 				mEmptyView.setVisibility(View.VISIBLE);
 				setVisibility(View.GONE);
-			} else {
-				// If the caller just removed our empty view, make sure the list
-				// view is visible
-				setVisibility(View.VISIBLE);
 			}
 		} else {
-			if (mEmptyView != null)
+			if (mEmptyView != null) {
 				mEmptyView.setVisibility(View.GONE);
-			setVisibility(View.VISIBLE);
+				setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
@@ -246,7 +240,7 @@ public class LinearListView extends IcsLinearLayout {
 
 		removeAllViews();
 
-		updateEmptyStatus((mAdapter == null) || mAdapter.isEmpty());
+		updateEmptyStatus(mAdapter == null || mAdapter.isEmpty());
 
 		if (mAdapter == null) {
 			return;
@@ -277,7 +271,7 @@ public class LinearListView extends IcsLinearLayout {
 
 		@Override
 		public void onClick(View v) {
-			if ((mOnItemClickListener != null) && (mAdapter != null)) {
+			if (mOnItemClickListener != null && mAdapter != null) {
 				mOnItemClickListener.onItemClick(LinearListView.this, v,
 						mPosition, mAdapter.getItemId(mPosition));
 			}
